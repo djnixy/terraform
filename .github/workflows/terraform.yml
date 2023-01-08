@@ -73,12 +73,27 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
+    - name: Create AWS profile
+      # You may pin to the exact commit or the version.
+      # uses: Fooji/create-aws-profile-action@11446e09949aa9812361b5fbe72c8b5a7e44bdd2
+      uses: Fooji/create-aws-profile-action@v1
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
+        # The AWS_ACCESS_KEY_ID
+        key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        # The AWS_SECRET_ACCESS_KEY
+        secret: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        # The profile name you want to setup
+        profile: default
+        # The AWS region you want to use
+        region: ${{ env.AWS_REGION }}
+        
+#     - name: Configure AWS credentials
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: ${{ env.AWS_REGION }}
+        
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
