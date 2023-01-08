@@ -18,10 +18,11 @@ on:
           - staging
           - prod
           default: dev
+        domain_name:
+          description: 'Domain Name'
+          required: true
+          default: 'demo.com'
 
-product_name="productname"
-environment="dev"
-domain_name = "demo.com"
 
 permissions:
   contents: read
