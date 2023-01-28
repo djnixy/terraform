@@ -5,23 +5,23 @@ on:
     branches: [ "main" ]
   pull_request:
   workflow_dispatch:
-#     inputs:
-#         product_name:
-#           description: 'Name of product'
-#           required: true
-#           default: 'productname'
-#         environment:
-#           type: choice
-#           description: 'Environment Name'
-#           options:
-#           - dev
-#           - staging
-#           - prod
-#           default: dev
-#         domain_name:
-#           description: 'Domain Name'
-#           required: true
-#           default: 'demo.com'
+    inputs:
+        product_name:
+          description: 'Name of product'
+          required: true
+          default: 'productname'
+        environment:
+          type: choice
+          description: 'Environment Name'
+          options:
+          - dev
+          - stage
+          - prod
+          default: dev
+        domain_name:
+          description: 'Domain Name'
+          required: true
+          default: 'demo.com'
 
 
 permissions:
@@ -65,8 +65,11 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan -input=false
-      
+      run: |
+        terraform plan -input=false \
+        -var product_name=${{ github.event.inputs.product_name }} \
+        -var environment=${{ github.event.inputs.environment }} \
+        -var domain_name=${{ github.event.inputs.domain_name }}
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
