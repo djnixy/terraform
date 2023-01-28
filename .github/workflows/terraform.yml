@@ -54,13 +54,13 @@ jobs:
       uses: hashicorp/setup-terraform@v1
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-    - uses: cschleiden/replace-tokens@v1
+    - uses: cschleiden/replace-tokens@v1.2
       with:
-        files: terraform.tfvars
+        files: 'terraform.tfvars'
       env:
-        product_name: productname
-        environment: dev
-        domain_name: demo.com
+        product_name: ${{ github.event.inputs.product_name }}
+        environment: ${{ github.event.inputs.environment }}
+        domain_name: ${{ github.event.inputs.domain_name }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
