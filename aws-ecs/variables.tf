@@ -55,7 +55,6 @@ variable "ecs_sg_backend_name" {
   default = ""
 }
 
-
 variable "vpc_id" {
   # description = "CIDR block for VPC"
   type        = string
@@ -84,16 +83,12 @@ variable "ecsTaskExecutionRole" {
   default = "arn:aws:iam::467726254276:role/ecsTaskExecutionRole"
 }
 
-
-
 locals {
   # Common tags to be assigned to all resources
   # common_tags = {
   #   Service = local.service_name
   #   Owner   = local.owner
   # }
-  # domain = "${var.domain}.${var.hosted_zone}"
-  # asd= "${join("-",var.example-list)}"
 
   alb_sg_name = join("-", ["alb", var.product_name, var.environment , "sg"])
   alb_name = join("-", ["alb", var.product_name, var.environment])
