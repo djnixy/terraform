@@ -59,7 +59,7 @@ jobs:
       with:
         tokenPrefix: '{'
         tokenSuffix: '}'
-        files: '["terraform.tfvars"]'
+        files: '["**/terraform.tfvars"]'
       env:
         product_name: ${{ github.event.inputs.product_name }}
         environment: ${{ github.event.inputs.environment }}
