@@ -57,6 +57,8 @@ jobs:
         
     - uses: cschleiden/replace-tokens@v1.2
       with:
+        tokenPrefix: '{'
+        tokenSuffix: '}'
         files: '["terraform.tfvars"]'
       env:
         product_name: ${{ github.event.inputs.product_name }}
