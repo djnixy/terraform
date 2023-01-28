@@ -1,9 +1,9 @@
 name: 'Terraform'
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
+#   push:
+#     branches: [ "main" ]
+#   pull_request:
   workflow_dispatch:
     inputs:
         product_name:
