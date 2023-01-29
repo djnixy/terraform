@@ -1,0 +1,110 @@
+name: 'Terraform Azure App Service'
+
+on:
+#   push:
+#     branches: [ "main" ]
+#   pull_request:
+  workflow_dispatch:
+    inputs:
+        productName:
+          description: 'Name of product'
+          required: true
+          default: 'productdemo'
+        env:
+          type: choice
+          description: 'Environment Name'
+          options:
+          - development
+          - staging
+          - production
+          default: development
+        serviceName:
+          description: 'Service Name'
+          required: true
+          default: 'api'
+        serviceName1:
+          description: 'Second Service Name'
+          required: true
+          default: 'web'
+        region:
+          description: 'Region'
+          required: true
+          default: 'australiaeast'       
+        sqlAdminName:
+          description: 'SQL Server Admin Name'
+          required: true
+          default: 'sqladmin' 
+        sqlAdminPassword:
+          description: 'SQL Server Admin Password'
+          required: true
+          default: 'NOTsoSECUREpasscode55*' 
+        databaseName:
+          description: 'First Database Name'
+          required: true
+          default: 'api' 
+        databaseName1:
+          description: 'Second Database Name'
+          required: true
+          default: 'hangfire' 
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    environment: development
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./az-appservice-docker
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+        
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+        
+    - uses: cschleiden/replace-tokens@v1.2
+      with:
+        tokenPrefix: '{'
+        tokenSuffix: '}'
+        files: '["**/terraform.tfvars"]'
+      env:
+        productName: ${{ github.event.inputs.productName }}
+        serviceName: ${{ github.event.inputs.serviceName }}
+        serviceName1: ${{ github.event.inputs.serviceName1 }}
+        env: ${{ github.event.inputs.env }}
+        region: ${{ github.event.inputs.region }}
+        sqlAdminName: ${{ github.event.inputs.sqlAdminName }}
+        sqlAdminPassword: ${{ github.event.inputs.sqlAdminPassword }}
+        databaseName: ${{ github.event.inputs.databaseName }}
+        databaseName1: ${{ github.event.inputs.databaseName1 }}
+
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init
+
+    # Checks that all Terraform configuration files adhere to a canonical format
+#     - name: Terraform Format
+#       run: terraform fmt -check
+
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      run: |
+        terraform plan -input=false
+
+      # On push to "main", build or change infrastructure according to Terraform configuration files
+      # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
+#    - name: Terraform Apply
+#      if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
+#      run: terraform apply -auto-approve -input=false
