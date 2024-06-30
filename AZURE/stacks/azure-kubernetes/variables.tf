@@ -1,3 +1,5 @@
+variable "subscription_id" {}
+
 variable "productName" {
   # description = ""
   type        = string
@@ -61,6 +63,7 @@ locals {
 
     rgName          = join("-", ["rg", var.productName, var.env])
     rgSharedName    = join("-", ["rg", var.productName, "shared"])
+    vnetName        = join("-", ["vnet", var.productName, var.env])
     planName        = join("-", ["plan", var.productName, var.env])
     appName         = join("-", ["app", var.productName, var.serviceName, var.env])
     appName1        = join("-", ["app", var.productName, var.serviceName1, var.env])
