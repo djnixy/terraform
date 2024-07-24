@@ -13,18 +13,19 @@ module "eks" {
     kube-proxy = {
       most_recent = true
     }
-    vpc-cni = {
-      most_recent              = true
-      before_compute           = true
-      service_account_role_arn = module.vpc_cni_irsa.iam_role_arn
-      configuration_values = jsonencode({
-        env = {
-          # Reference docs https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
-          ENABLE_PREFIX_DELEGATION = "true"
-          WARM_PREFIX_TARGET       = "1"
-        }
-      })
-    }
+
+    # vpc-cni = {
+    #   most_recent              = true
+    #   before_compute           = true
+    #   service_account_role_arn = module.vpc_cni_irsa.iam_role_arn
+    #   configuration_values = jsonencode({
+    #     env = {
+    #       # Reference docs https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
+    #       ENABLE_PREFIX_DELEGATION = "true"
+    #       WARM_PREFIX_TARGET       = "1"
+    #     }
+    #   })
+    # }
   }
 
   vpc_id                   = module.vpc.vpc_id
@@ -54,10 +55,10 @@ module "eks" {
       disk_size = 50
 
       # Remote access cannot be specified with a launch template
-      remote_access = {
-        ec2_ssh_key               = module.key_pair.key_pair_name
-        source_security_group_ids = [aws_security_group.remote_access.id]
-      }
+      # remote_access = {
+      #   ec2_ssh_key               = module.key_pair.key_pair_name
+      #   source_security_group_ids = [aws_security_group.remote_access.id]
+      # }
     }
 
     # Default node group - as provided by AWS EKS using Bottlerocket
@@ -118,20 +119,20 @@ module "eks" {
       EOT
     }
 
-    # Use a custom AMI
-    custom_ami = {
-      ami_type = "AL2_ARM_64"
-      # Current default AMI used by managed node groups - pseudo "custom"
-      ami_id = data.aws_ami.eks_default_arm.image_id
+    # # Use a custom AMI
+    # custom_ami = {
+    #   ami_type = "AL2_ARM_64"
+    #   # Current default AMI used by managed node groups - pseudo "custom"
+    #   ami_id = data.aws_ami.eks_default_arm.image_id
 
-      # This will ensure the bootstrap user data is used to join the node
-      # By default, EKS managed node groups will not append bootstrap script;
-      # this adds it back in using the default template provided by the module
-      # Note: this assumes the AMI provided is an EKS optimized AMI derivative
-      enable_bootstrap_user_data = true
+    #   # This will ensure the bootstrap user data is used to join the node
+    #   # By default, EKS managed node groups will not append bootstrap script;
+    #   # this adds it back in using the default template provided by the module
+    #   # Note: this assumes the AMI provided is an EKS optimized AMI derivative
+    #   enable_bootstrap_user_data = true
 
-      instance_types = ["t4g.medium"]
-    }
+    #   instance_types = ["t4g.medium"]
+    # }
 
     # Complete
     complete = {
@@ -190,7 +191,7 @@ module "eks" {
             iops                  = 3000
             throughput            = 150
             encrypted             = true
-            kms_key_id            = module.ebs_kms_key.key_arn
+            # kms_key_id            = module.ebs_kms_key.key_arn
             delete_on_termination = true
           }
         }
@@ -210,10 +211,11 @@ module "eks" {
       iam_role_tags = {
         Purpose = "Protector of the kubelet"
       }
-      iam_role_additional_policies = {
-        AmazonEC2ContainerRegistryReadOnly = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-        additional                         = aws_iam_policy.node_additional.arn
-      }
+
+      # iam_role_additional_policies = {
+      #   AmazonEC2ContainerRegistryReadOnly = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+      #   additional                         = aws_iam_policy.node_additional.arn
+      # }
 
       schedules = {
         scale-up = {
