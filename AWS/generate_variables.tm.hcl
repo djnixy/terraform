@@ -56,13 +56,9 @@ variable "database_name" {
 
 locals {
 
-    http_setting_name =  join("-", ["behtst", var.product_name, var.environment])
-    listener_name = join("-", ["httplstn", var.product_name, var.environment])
-    request_routing_rule_name = join("-", ["rqrt", var.product_name, var.environment])
-    frontend_port_name = join("-", ["feport", var.product_name, var.environment])
-    frontend_ip_configuration_name = join("-", ["feip", var.product_name, var.environment])
-    backend_address_pool_name = join("-", ["beap", var.product_name, var.environment])
-    public_ip_address_name = join("-", ["pip", var.product_name, var.environment])
+  azs      = slice(data.aws_availability_zones.available.names, 0, 2)
+  ecsTaskExecutionRole  = join("", ["arn:aws:iam::", data.aws_caller_identity.current.account_id, ":role/ecsTaskExecutionRole"])
+  monitoring_role_arn   = join("", ["arn:aws:iam::", data.aws_caller_identity.current.account_id, ":role/rds-monitoring-role"])
 }
 
 
