@@ -19,7 +19,7 @@ variable "environment" {
   default = "development"
 }
 
-variable "region" {
+variable "deploy_region" {
   # description = ""
   type        = string
   default = ""
@@ -56,17 +56,6 @@ locals {
     frontend_ip_configuration_name = join("-", ["feip", var.product_name, var.environment])
     backend_address_pool_name = join("-", ["beap", var.product_name, var.environment])
     public_ip_address_name = join("-", ["pip", var.product_name, var.environment])
-    rg_name          = join("-", ["rg", var.product_name, var.environment])
-    waf_policy_name = join("-", ["waf", var.product_name, var.environment])
-    app_gateway_name  = join("-", ["agw", var.product_name, var.environment])
-    vnetName        = join("-", ["vnet", var.product_name, var.environment])
-    planName        = join("-", ["plan", var.product_name, var.environment])
-    appName         = join("-", ["app", var.product_name, var.service_name, var.environment])
-
-    sqlServerName   = join("-", ["mysql", var.product_name, var.environment]) 
-    # sqlPoolName     = join("-", ["pool", var.product_name, var.environment])
-    # sqlDBName       = join("-", ["sqldb", var.databaseName , var.environment])
-    # sqlDBName1      = join("-", ["sqldb", var.databaseName1 , var.environment])
 }
 
 
