@@ -1,8 +1,5 @@
-generate_hcl "_terramate_generated_securitygroup.tf" {
-  content {
-
 resource "aws_security_group" "additional" {
-  name_prefix = "${local.product_name}-additional"
+  name_prefix = "${var.product_name}-additional"
   description = "Allow remote SSH access"
   vpc_id      = module.vpc.vpc_id
 
@@ -20,10 +17,5 @@ resource "aws_security_group" "additional" {
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
-  }
-}
-
-
-
   }
 }

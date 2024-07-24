@@ -7,12 +7,6 @@ variable "product_name" {
   default = ""
 }
 
-variable "service_name" {
-  # description = ""
-  type        = string
-  default = ""
-}
-
 variable "environment" {
   # description = ""
   type        = string
@@ -25,30 +19,43 @@ variable "deploy_region" {
   default = ""
 }
 
-variable "sqlAdminName" {
+variable "service_name" {
+  # description = ""
+  type        = string
+  default = ""
+}
+
+variable "vpc_cidr" {
+  type        = string
+  default = ""
+}
+
+variable "azs" {
+  type        = string
+  default = ""
+}
+
+
+variable "database_admin_name" {
   # description = ""
   type        = string
   default = "sqladmin"
 }
 
-variable "sqlAdminPassword" {
+variable "database_admin_password" {
   # description = ""
   type        = string
   default = "NOTsoSecurePassword893!"
 }
 
-variable "databaseName" {
+variable "database_name" {
   # description = ""
   type        = string
   default = "api"
 }
 
 locals {
-  # Common tags to be assigned to all resources
-  # common_tags = {
-  #   Service = local.service_name
-  #   Owner   = local.owner
-  # }
+
     http_setting_name =  join("-", ["behtst", var.product_name, var.environment])
     listener_name = join("-", ["httplstn", var.product_name, var.environment])
     request_routing_rule_name = join("-", ["rqrt", var.product_name, var.environment])

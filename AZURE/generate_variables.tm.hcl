@@ -7,12 +7,6 @@ variable "product_name" {
   default = ""
 }
 
-variable "service_name" {
-  # description = ""
-  type        = string
-  default = ""
-}
-
 variable "environment" {
   # description = ""
   type        = string
@@ -24,6 +18,19 @@ variable "region" {
   type        = string
   default = ""
 }
+
+
+variable "azs" {
+  type        = string
+  default = ""
+}
+
+variable "service_name" {
+  # description = ""
+  type        = string
+  default = ""
+}
+
 
 variable "sqlAdminName" {
   # description = ""
