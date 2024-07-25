@@ -1,4 +1,4 @@
-name: 'Terraform Azure App Service'
+name: 'Terramate'
 
 on:
   push:
