@@ -58,12 +58,13 @@ resource "null_resource" "my_instance" {
     inline = ["sudo apt update && sudo apt install -y ansible && ansible --version"]
   }
 
-  connection {
-    type        = "ssh"
-    user        = "ubuntu"
-    private_key = file("/Users/niki/.ssh/id_rsa")
-    host        = module.ec2-instance.public_ip
-  }
+  ## Uncomment this if you want to use Ansible locally
+  # connection {
+  #   type        = "ssh"
+  #   user        = "ubuntu"
+  #   private_key = file("/Users/niki/.ssh/id_rsa")
+  #   host        = module.ec2-instance.public_ip
+  # }
 
   # Note that the -i flag expects a comma separated list, so the trailing comma is essential!
 
