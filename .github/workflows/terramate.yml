@@ -1,0 +1,78 @@
+name: 'Terraform Azure App Service'
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      productName:
+        description: 'Name of product'
+        required: true
+        default: 'productdemo'
+      env:
+        type: choice
+        description: 'Environment Name'
+        options:
+        - development
+        - staging
+        - production
+        default: development
+      serviceName:
+        description: 'Service Name'
+        required: true
+        default: 'api'
+      serviceName1:
+        description: 'Second Service Name'
+        required: true
+        default: 'web'
+      region:
+        description: 'Region'
+        required: true
+        default: 'australiaeast'       
+      sqlAdminName:
+        description: 'SQL Server Admin Name'
+        required: true
+        default: 'sqladmin' 
+      sqlAdminPassword:
+        description: 'SQL Server Admin Password'
+        required: true
+        default: 'NOTsoSECUREpasscode55*' 
+      databaseName:
+        description: 'First Database Name'
+        required: true
+        default: 'api' 
+      databaseName1:
+        description: 'Second Database Name'
+        required: true
+        default: 'hangfire' 
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    environment: development
+    env:
+      ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    # defaults:
+    #   run:
+    #     shell: bash
+    #     working-directory: ./az-appservice-docker
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      
+    - uses: terramate-io/terramate-action@v1
+    - id: list
+      run: terramate list --changed
+    - run: terramate generate
+    - run: terramate run -- terraform init
+    - run: terramate run -- terraform plan
