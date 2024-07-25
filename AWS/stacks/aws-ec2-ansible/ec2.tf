@@ -1,6 +1,6 @@
 
 module "ec2-sg" {
-  source  = "terraform-aws-modules/security-group/aws"
+  source = "terraform-aws-modules/security-group/aws"
 
   vpc_id          = data.aws_vpc.default.id
   name            = "ec2-sg"
@@ -9,22 +9,22 @@ module "ec2-sg" {
   egress_rules    = ["all-all"]
 
   ingress_cidr_blocks = ["0.0.0.0/0"]
-  ingress_rules = ["http-80-tcp", "https-443-tcp", "ssh-tcp"]
+  ingress_rules       = ["http-80-tcp", "https-443-tcp", "ssh-tcp"]
 
 }
 
 module "ec2-instance" {
-  source  = "terraform-aws-modules/ec2-instance/aws"
+  source = "terraform-aws-modules/ec2-instance/aws"
 
-  name = "ec2-nginx"
-  key_name = "nikiakbar-rsa"
-  ami = "ami-0fa377108253bf620"
-  instance_type = "t3a.micro"
-  availability_zone = "${var.deploy_region}a"
-  subnet_id = data.aws_subnet.zone-a.id
-  vpc_security_group_ids = [module.ec2-sg.security_group_id]
+  name                        = "ec2-nginx"
+  key_name                    = "nikiakbar-rsa"
+  ami                         = "ami-0fa377108253bf620"
+  instance_type               = "t3a.micro"
+  availability_zone           = "${var.deploy_region}a"
+  subnet_id                   = data.aws_subnet.zone-a.id
+  vpc_security_group_ids      = [module.ec2-sg.security_group_id]
   associate_public_ip_address = true
-  enable_volume_tags = false
+  enable_volume_tags          = false
   # root_block_device = [
   #   {
   #     encrypted   = true
@@ -36,8 +36,8 @@ module "ec2-instance" {
   #     }
   #   },
   # ]
-  
-#   }
+
+  #   }
 
   # provisioner "local-exec" {
   #   command = "echo ${aws_instance.myec2.public_ip} >> /etc/ansible/hosts"

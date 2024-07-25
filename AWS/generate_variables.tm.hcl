@@ -4,7 +4,7 @@ generate_hcl "_terramate_generated_variables.tf" {
 variable "product_name" {
   # description = ""
   type        = string
-  default = ""
+  default = "demonix"
 }
 
 variable "environment" {
@@ -16,13 +16,13 @@ variable "environment" {
 variable "deploy_region" {
   # description = ""
   type        = string
-  default = ""
+  default = "ap-southeast-1"
 }
 
 variable "service_name" {
   # description = ""
   type        = string
-  default = ""
+  default = "portal"
 }
 
 variable "vpc_cidr" {
@@ -34,7 +34,6 @@ variable "azs" {
   type        = string
   default = ""
 }
-
 
 variable "database_admin_name" {
   # description = ""
