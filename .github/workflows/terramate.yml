@@ -49,6 +49,9 @@ on:
 permissions:
   contents: read
 
+env:
+  AWS_REGION: ap-southeast-1
+  
 jobs:
   terraform:
     name: 'Terraform'
