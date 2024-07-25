@@ -71,8 +71,6 @@ jobs:
       uses: actions/checkout@v3
       
     - uses: terramate-io/terramate-action@v1
-    - id: list
-      run: terramate list --changed
     - run: terramate generate
     - run: terramate run -- terraform init
     - run: terramate run -- terraform plan
