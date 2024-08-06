@@ -73,7 +73,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       
-    - uses: terramate-io/terramate-action@v1
+    # - uses: terramate-io/terramate-action@v1
     - run: terramate generate
     - run: terramate run -- tflocal init
     - run: terramate run -- tflocal plan
