@@ -70,5 +70,5 @@ jobs:
     # - uses: terramate-io/terramate-action@v1
     - run: cd AWS/stacks
     - run: terramate generate
-    - run: terramate run -- tflocal init
-    - run: terramate run -- tflocal plan
+    - run: terramate run --chdir AWS/stacks -- tflocal init
+    - run: terramate run --chdir AWS/stacks -- tflocal plan
