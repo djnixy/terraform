@@ -4,9 +4,9 @@
 generate_hcl "_terramate_generated_data.tf" {
   content {
 
-data "http" "myip" {
-  url = "https://ifconfig.me/ip"
-}
+    data "http" "myip" {
+      url = "https://ifconfig.me/ip"
+    }
 
   }
 }
