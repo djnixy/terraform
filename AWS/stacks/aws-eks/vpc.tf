@@ -5,14 +5,15 @@ module "vpc" {
   name = "${local.product_name}-vpc"
   cidr = var.vpc_cidr
 
-  azs             = local.azs
+  azs = local.azs
 
   private_subnet_names = ["private-snet-a", "private-snet-b"]
   private_subnets = [for k, v in local.azs : cidrsubnet(var.vpc_cidr, 4, k)]
 
   public_subnet_names = ["public-snet-a", "public-snet-b"]
-  public_subnets  = [for k, v in local.azs : cidrsubnet(var.vpc_cidr, 4, k + 2)]
-
+  public_subnets      = [for k, v in local.azs : cidrsubnet(var.vpc_cidr, 4, k + 2)]
+  map_public_ip_on_launch = true
+  
   # database_subnet_names =  ["database-snet-a", "database-snet-b"]
   # database_subnets   = [for k, v in local.azs : cidrsubnet(var.vpc_cidr, 4, k + 14)]
 
