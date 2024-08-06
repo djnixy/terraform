@@ -1,4 +1,4 @@
-name: 'Terramate'
+name: 'Terramate - Plan'
 
 on:
   push:
