@@ -233,8 +233,8 @@ module "eks_bottlerocket" {
   version = "20.22.0"
 
   cluster_name    = var.product_name
-  # cluster_version = "1.30"
-  cluster_upgrade_policy = "all"
+  cluster_upgrade_policy = "standard"
+
   # EKS Addons
   cluster_addons = {
     coredns = {
