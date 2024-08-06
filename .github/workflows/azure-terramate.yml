@@ -2,6 +2,8 @@ name: 'Azure Terramate - Plan'
 
 on:
   push:
+    paths:
+      - AZURE/**
   pull_request:
   workflow_dispatch:
     inputs:
