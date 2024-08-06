@@ -1,4 +1,4 @@
-name: 'Terramate - Plan'
+name: 'Azure Terramate - Plan'
 
 on:
   push:
