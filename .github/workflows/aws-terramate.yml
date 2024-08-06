@@ -52,11 +52,10 @@ permissions:
 env:
   AWS_REGION: ap-southeast-1
 
-runs-on: self-hosted
-
 jobs:
   terraform:
     name: 'Terraform'
+    runs-on: self-hosted
     environment: development
     env:
       ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
