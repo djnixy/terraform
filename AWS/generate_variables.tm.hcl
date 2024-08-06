@@ -56,8 +56,8 @@ variable "database_name" {
 locals {
 
   azs      = slice(data.aws_availability_zones.available.names, 0, 2)
-  ecsTaskExecutionRole  = join("", ["arn:aws:iam::", data.aws_caller_identity.current.account_id, ":role/ecsTaskExecutionRole"])
-  monitoring_role_arn   = join("", ["arn:aws:iam::", data.aws_caller_identity.current.account_id, ":role/rds-monitoring-role"])
+  # ecsTaskExecutionRole  = join("", ["arn:aws:iam::", data.aws_caller_identity.current.account_id, ":role/ecsTaskExecutionRole"])
+  # monitoring_role_arn   = join("", ["arn:aws:iam::", data.aws_caller_identity.current.account_id, ":role/rds-monitoring-role"])
 }
 
 
